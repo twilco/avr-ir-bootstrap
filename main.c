@@ -150,7 +150,8 @@ int ticks_to_microseconds(int ticks) {
 }
 
 bool is_nec_header(Segment header_segments[]) {
-    if(header_segments[0].is_mark && within_range(125, 9000, header_segments[0].microseconds)) {
+    if(header_segments[0].is_mark && within_range(125, 9000, header_segments[0].microseconds)
+       && header_segments[0].is_space && within_range(125, 4500, header_segments[1].microseconds) {
         return true;
     }
     return false;
@@ -159,7 +160,7 @@ bool is_nec_header(Segment header_segments[]) {
 bool within_range(int range, int expected, int actual) {
     int max = range + expected;
     int min = expected - range;
-    if(expected < min || actual > max) return false;
+    if(actual < min || actual > max) return false;
     return true;
 }
 
