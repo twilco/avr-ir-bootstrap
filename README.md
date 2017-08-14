@@ -2,6 +2,7 @@
 
 DIY RC Car
 
+- [ ] Figure out how to unit test/set up CI
 - [ ] Decode NEC infrared signals sent from remote
 - [ ] Wire motor drivers and motors to ATMega328p and the breadboard
 - [ ] Implement forward, back, left, right
