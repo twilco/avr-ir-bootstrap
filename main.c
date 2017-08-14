@@ -41,30 +41,30 @@ volatile int free_header_index = 0;
 Segment header_segments[HEADER_ARR_SIZE];
 
 int main(void) {
-	/* Set PINB1 as an output */
-	DDRB = (1 << PINB1);
+    /* Set PINB1 as an output */
+    DDRB = (1 << PINB1);
     
     DDRC = (1 << LISTENING_FALLING_LED) | (1 << LISTENING_RISING_LED);
 	
-	/*
-		ICNC1 high to turn on input capture noise canceling
-	*/
-	TCCR1B = (1 << ICNC1);
+    /*
+        ICNC1 high to turn on input capture noise canceling
+    */
+    TCCR1B = (1 << ICNC1);
 	
-	/* ICIE1 high to enable the input capture interrupt */
-	/* TOIE0 high to enable the Timer1 overflow interrupt */
-	TIMSK1 = (1 << ICIE1) | (1 << TOIE0);
-	sei();
+    /* ICIE1 high to enable the input capture interrupt */
+    /* TOIE0 high to enable the Timer1 overflow interrupt */
+    TIMSK1 = (1 << ICIE1) | (1 << TOIE0);
+    sei();
 	 
-	/* Start Timer1 with a prescaler of 8 */
-	TCCR1B |= (1 << CS11);
-	/*
-		- Prescaler of 8 will give our input capture the ability to capture events with
-		lengths from .5 microseconds (1 tick) to 32767 microseconds (65535 ticks) <-- assuming 16MHz clock
+    /* Start Timer1 with a prescaler of 8 */
+    TCCR1B |= (1 << CS11);
+    /*
+	- Prescaler of 8 will give our input capture the ability to capture events with
+	lengths from .5 microseconds (1 tick) to 32767 microseconds (65535 ticks) <-- assuming 16MHz clock
 		
-		- Prescaler of 1 (no prescaler) can only capture a maximum event (without guaranteed overflow, which would be annoying to consistently deal with)
-		of 4095 microseconds.  This is inadequate, considering the header high-segment of the NEC protocol is 9000 microseconds (9ms) <-- assuming 16MHz clock
-	*/
+	- Prescaler of 1 (no prescaler) can only capture a maximum event (without guaranteed overflow, which would be annoying to consistently deal with)
+	of 4095 microseconds.  This is inadequate, considering the header high-segment of the NEC protocol is 9000 microseconds (9ms) <-- assuming 16MHz clock
+    */
     while (1) {
         if(mark_start != -1 && mark_end != -1) {
             //these are both set (not -1).  let's calculate the mark length
