@@ -105,12 +105,12 @@ ISR(TIMER1_CAPT_vect) {
         }
         icp_listen_for_rising(); 
     } else if(icp_listening_for_rising()) {
+	space_start = ICR1;
         if(mark_start != -1) {
             //we don't want to set mark_end if we haven't started timing a mark yet
             //e.g. this is the first pulse of a full burst, and it is rising
             mark_end = ICR1;
         }
-        space_start = ICR1;
         icp_listen_for_falling();
     }        
 }
