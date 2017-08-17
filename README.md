@@ -23,7 +23,7 @@ DIY RC Car
 
 #### High Level Overview
 
-![NEC Protocol](https://github.com/twilco/rc-car/img/NEC_IR_Protocol.png)
+![NEC Protocol](https://github.com/twilco/rc-car/blob/master/img/NEC_IR_Protocol.png)
 
 Pictured above is the NEC protocol, which is one of many IR protocols, and the one I use in this project.  It was created by the major Japanese technology company formally known as Nippon Electric Company (hence the name NEC), and is one of the more popular protocols today.  The NEC protocol has a few distinct parts:
 
