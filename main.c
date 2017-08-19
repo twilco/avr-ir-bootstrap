@@ -105,7 +105,7 @@ ISR(TIMER1_CAPT_vect) {
         }
         icp_listen_for_rising(); 
     } else if(icp_listening_for_rising()) {
-	space_start = ICR1;
+        space_start = ICR1;
         if(mark_start != -1) {
             //we don't want to set mark_end if we haven't started timing a mark yet
             //e.g. this is the first pulse of a full burst, and it is rising
@@ -138,9 +138,9 @@ void icp_listen_for_falling() {
     TCCR1B ^= (1 << ICES1);
 }
 
-protocol_type protocol_from_header(Segment header_segments[], int size) {
-    if(size == 1) return UNKNOWN;
-    if(size == 2) {
+protocol_type protocol_from_header(Segment header_segments[], int num_segments) {
+    if(num_segments == 1) return UNKNOWN;
+    if(num_segments == 2) {
         if(is_nec_header(header_segments)) {
             return NEC;
         }
@@ -196,7 +196,7 @@ void process_new_header_segment(Segment new_segment) {
         reset();
     } else {
         header_segments[free_header_index++] = new_segment;
-        selected_protocol = protocol_from_header(header_segments, sizeof(header_segments) / sizeof(header_segments[0]));
+        selected_protocol = protocol_from_header(header_segments, free_header_index);
     }
 }
 
