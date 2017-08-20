@@ -8,6 +8,7 @@
 #include "util/avr_util.h"
 #include "util/general_util.h"
 #include "protocols/nec_module.h"
+#include "remotes/sparkfun_com_11759.h"
 
 Protocol_Type protocol_from_header(Segment header_segments[], int size);
 void process_new_header_segment(Segment new_segment);
