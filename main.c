@@ -1,39 +1,15 @@
-#define F_CPU 16000000L
-#define PRESCALER 8
-#define MAX_16_BIT_INT 65535
-#define HEADER_ARR_SIZE 15
-#define MICROSECONDS_IN_SECOND_F 1000000.0
-#define MICROSECOND_MULT_RATIO (PRESCALER * MICROSECONDS_IN_SECOND_F) / F_CPU
-
-#define BLUE_LED PINC0
-#define RED_LED PINC3
-
+#include "constants.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 /* bools take a a byte each and there are more memory efficient ways to accomplish 
    bool-like values, but I'm not strapped for space and will take a memory hit in favor of readability */
 #include <stdbool.h>
+#include "typedefs.h"
+#include "util/avr_util.h"
+#include "util/general_util.h"
+#include "protocols/nec_module.h"
 
-typedef enum protocol_type {
-    UNKNOWN,
-    NEC
-} protocol_type;
-
-typedef struct Segment {
-    bool is_mark;
-    bool is_space;
-    int microseconds;
-} Segment;
-
-bool icp_listening_for_rising();
-bool icp_listening_for_falling();
-bool is_nec_header(Segment header_segments[]);
-bool within_range(int range, int expected, int actual);
-int ticks_to_microseconds(int ticks);
-protocol_type protocol_from_header(Segment header_segments[], int size);
-int calculate_segment_ticks(int segment_start, int segment_end);
-void icp_listen_for_rising();
-void icp_listen_for_falling();
+Protocol_Type protocol_from_header(Segment header_segments[], int size);
 void process_new_header_segment(Segment new_segment);
 void process_new_segment(Segment new_segment);
 void reset();
@@ -41,7 +17,9 @@ void reset();
 volatile int mark_start = -1, mark_end = -1, space_start = -1, space_end = -1;
 volatile int selected_protocol = UNKNOWN;
 volatile int free_header_index = 0;
-Segment header_segments[HEADER_ARR_SIZE];
+volatile int free_data_index = 0;
+Segment header_segments[HEADER_SEGMENTS_SIZE];
+Segment data_segments[DATA_SEGMENTS_SIZE];
 
 int main(void) {
     /* Set PINB1 as an output */
@@ -119,62 +97,15 @@ ISR(TIMER1_OVF_vect) {
     PORTC = 0x0; //clear any debug LEDs set on PORTC
 }
 
-bool icp_listening_for_rising() {
-    if(TCCR1B & (1 << ICES1)) {
-        return true;
-    }
-    return false;
-}
-
-bool icp_listening_for_falling() {
-    return !icp_listening_for_rising();
-}
-
-void icp_listen_for_rising() {
-    TCCR1B |= (1 << ICES1);
-}
-
-void icp_listen_for_falling() {
-    TCCR1B ^= (1 << ICES1);
-}
-
-protocol_type protocol_from_header(Segment header_segments[], int num_segments) {
+Protocol_Type protocol_from_header(Segment header_segments[], int num_segments) {
     if(num_segments == 1) return UNKNOWN;
     if(num_segments == 2) {
         if(is_nec_header(header_segments)) {
+            PORTC |= (1 << BLUE_LED);
             return NEC;
         }
     }
     return UNKNOWN;
-}
-
-int ticks_to_microseconds(int ticks) {
-    return ticks * MICROSECOND_MULT_RATIO;
-}
-
-int calculate_segment_ticks(int segment_start, int segment_end) {
-    if(segment_start > segment_end) {
-        //the timer must've overflown between the time the segment started and when it ended,
-        //so let's take that in to account when calculating the segment length
-        return (MAX_16_BIT_INT - segment_start) + segment_end;
-    }
-    return segment_end - segment_start;
-}
-
-
-bool is_nec_header(Segment header_segments[]) {
-    if(header_segments[0].is_mark && within_range(125, 9000, header_segments[0].microseconds)
-       && header_segments[1].is_space && within_range(125, 4500, header_segments[1].microseconds)) {
-        return true;
-    }
-    return false;
-}
-
-bool within_range(int range, int expected, int actual) {
-    int min = expected - range;
-    int max = range + expected;
-    if(actual < min || actual > max) return false;
-    return true;
 }
 
 void process_new_segment(Segment new_segment) {
@@ -190,7 +121,7 @@ void process_new_segment(Segment new_segment) {
 }
 
 void process_new_header_segment(Segment new_segment) {
-    if(free_header_index >= HEADER_ARR_SIZE) {
+    if(free_header_index >= HEADER_SEGMENTS_SIZE) {
         //something went wrong, we haven't matched a header to a protocol yet
         //we don't want to add this mark to the header array because we'll be out of bounds.  let's reset
         reset();

@@ -121,9 +121,37 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="constants.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="protocols\nec_module.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="protocols\nec_module.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="typedefs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\avr_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\avr_util.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\general_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\general_util.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="util" />
+    <Folder Include="protocols" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
