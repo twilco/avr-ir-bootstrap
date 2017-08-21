@@ -1,6 +1,11 @@
 #ifndef GENERAL_UTIL_H_
 #define GENERAL_UTIL_H_
 
+#define BIT_SET(a,b) ((a) |= (1<<(b)))
+#define BIT_CLEAR(a,b) ((a) &= ~(1<<(b)))
+#define BIT_FLIP(a,b) ((a) ^= (1<<(b)))
+#define BIT_CHECK(a,b) ((a) & (1<<(b)))
+
 #include <avr/io.h>
 
 bool within_range(int16_t range, int16_t expected, int16_t actual);
