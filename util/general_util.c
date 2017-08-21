@@ -1,11 +1,12 @@
 #include <stdbool.h>
+#include <avr/io.h>
 #include "../constants.h"
 
-int ticks_to_microseconds(int ticks) {
+int ticks_to_microseconds(uint32_t ticks) {
     return ticks * MICROSECOND_MULT_RATIO;
 }
 
-int calculate_segment_ticks(int segment_start, int segment_end) {
+int calculate_segment_ticks(uint32_t segment_start, uint32_t segment_end) {
     if(segment_start > segment_end) {
         //the timer must've overflown between the time the segment started and when it ended,
         //so let's take that in to account when calculating the segment length
@@ -14,9 +15,9 @@ int calculate_segment_ticks(int segment_start, int segment_end) {
     return segment_end - segment_start;
 }
 
-bool within_range(int range, int expected, int actual) {
-    int min = expected - range;
-    int max = range + expected;
+bool within_range(int16_t range, int16_t expected, int16_t actual) {
+    int16_t min = expected - range;
+    int16_t max = range + expected;
     if(actual < min || actual > max) return false;
     return true;
 }

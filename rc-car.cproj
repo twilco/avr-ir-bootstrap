@@ -133,6 +133,9 @@
     <Compile Include="protocols\nec_module.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="remotes\sparkfun_com_11759.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="typedefs.h">
       <SubType>compile</SubType>
     </Compile>
@@ -150,6 +153,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="remotes" />
     <Folder Include="util" />
     <Folder Include="protocols" />
   </ItemGroup>

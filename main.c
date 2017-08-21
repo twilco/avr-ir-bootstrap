@@ -15,12 +15,12 @@ void process_new_header_segment(Segment new_segment);
 void process_new_segment(Segment new_segment);
 void reset();
 
-volatile int mark_start = -1, mark_end = -1, space_start = -1, space_end = -1;
-volatile int selected_protocol = UNKNOWN;
-volatile int free_header_index = 0;
-volatile int free_data_index = 0;
+volatile int32_t mark_start = -1, mark_end = -1, space_start = -1, space_end = -1;
+volatile uint8_t selected_protocol = UNKNOWN;
+volatile uint8_t free_header_index = 0;
+volatile uint8_t free_data_index = 0;
 Segment header_segments[HEADER_SEGMENTS_SIZE];
-Segment data_segments[DATA_SEGMENTS_SIZE];
+uint8_t decoded_bits[DATA_SEGMENTS_SIZE];
 
 int main(void) {
     /* Set PINB1 as an output */
@@ -50,7 +50,7 @@ int main(void) {
     while (1) {
         if(mark_start != -1 && mark_end != -1) {
             //a new mark has been closed (start and end have event times are not -1) - let's process this new mark
-            int mark_ticks = calculate_segment_ticks(mark_start, mark_end);
+            uint16_t mark_ticks = calculate_segment_ticks(mark_start, mark_end);
             mark_start = -1;
             mark_end = -1;
             struct Segment new_segment;
@@ -62,7 +62,7 @@ int main(void) {
         
         if(space_start != -1 && space_end != -1) {
             //a new space has been closed (start and end have event times are not -1) - let's process this new space
-            int space_ticks = calculate_segment_ticks(space_start, space_end);
+            uint16_t space_ticks = calculate_segment_ticks(space_start, space_end);
             space_start = -1;
             space_end = -1;
             struct Segment new_segment;

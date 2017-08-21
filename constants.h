@@ -1,7 +1,7 @@
 #ifndef CONSTANTS_H_
 #define CONSTANTS_H_
 
-#define F_CPU 16000000L
+#define F_CPU 16000000UL
 #define PRESCALER 8
 #define MAX_16_BIT_INT 65535
 
