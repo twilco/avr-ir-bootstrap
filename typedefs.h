@@ -8,6 +8,10 @@ typedef enum Protocol_Type {
     NEC
 } Protocol_Type;
 
+typedef enum Error_Codes {
+    INVALID_PAIR_TIMINGS = -120
+} Error_codes;
+
 typedef struct Segment {
     bool is_mark;
     bool is_space;
@@ -17,6 +21,8 @@ typedef struct Segment {
 typedef struct Pair {
     Segment mark;
     Segment space;
+    bool has_mark;
+    bool has_space;
 } Pair;
 
 #endif /* TYPEDEFS_H_ */
