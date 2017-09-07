@@ -5,7 +5,8 @@ DIY RC Car
 ### To do
 
 - [ ] Figure out how to unit test and set up CI - http://www.throwtheswitch.org
-- [ ] Decode NEC infrared signals sent from remote
+- [x] Decode NEC infrared signals sent from remote
+- [ ] Explore possibility of using RF, which has longer range than IR
 - [ ] Wire motor drivers and motors to ATMega328p and the breadboard
 - [ ] Implement forward, back, left, right
 - [ ] Implement three speed modes

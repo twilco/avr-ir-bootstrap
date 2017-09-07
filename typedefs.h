@@ -9,7 +9,10 @@ typedef enum Protocol_Type {
 } Protocol_Type;
 
 typedef enum Error_Codes {
-    INVALID_PAIR_TIMINGS = -120
+    INVALID_PAIR_TIMINGS = -120,
+    NO_BIT_POS_FOR_UNKNOWN,
+    BIT_POS_CALC_ERROR,
+    UNKNOWN_PROTOCOL
 } Error_codes;
 
 typedef struct Segment {

@@ -14,7 +14,8 @@
 Protocol_Type protocol_from_header(Segment header_segments[], int size);
 void process_new_header_segment(Segment new_segment);
 void process_new_segment(Segment new_segment);
-void reset();
+void hard_reset(); //used when an error occurs, and we need to recover.  resets state and ignores IR pulses for a certain amount of time
+void reset(); //an expected reset - reinitialize application state to prepare for next IR pulse
 
 volatile int32_t mark_start = -1, mark_end = -1, space_start = -1, space_end = -1;
 volatile uint8_t selected_protocol = UNKNOWN;
@@ -22,7 +23,7 @@ volatile uint8_t free_header_index = 0;
 volatile uint8_t data_bit_counter = 0;
 volatile uint32_t decoded_data = 0;
 Segment header_segments[HEADER_SEGMENTS_SIZE];
-Pair global_mark_and_space;
+Pair data_pair;
 
 int main(void) {
     /* Set PINB1 as an output */
@@ -75,6 +76,24 @@ int main(void) {
             new_segment.is_space = true;
             new_segment.microseconds = ticks_to_microseconds(space_ticks);
             process_new_segment(new_segment);
+        }
+        
+        if(selected_protocol != UNKNOWN && data_pair.has_mark == true && data_pair.has_space == true) {
+            data_pair.has_mark = false;
+            data_pair.has_space = false;
+            int8_t bit = nec_data_bit_from_pair(data_pair);
+            if(bit != INVALID_PAIR_TIMINGS) {
+                if(bit == 1) {
+                    int pos = get_bit_position(NEC, data_bit_counter);
+                    if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == UNKNOWN_PROTOCOL) {
+                        hard_reset();
+                    }
+                    BIT_SET(decoded_data, pos);
+                }
+                data_bit_counter++;
+            } else {
+                hard_reset();
+            }
         }     
     }
 }
@@ -119,59 +138,37 @@ void process_new_segment(Segment new_segment) {
         process_new_header_segment(new_segment);
     } else if(selected_protocol == NEC) {
         //this is a logical data segment for the NEC protocol
-        if(global_mark_and_space.has_mark == true && global_mark_and_space.has_space == true) {
-            /*usart_transmit('p');
-            usart_transmit(' ');
-            char string[8];
-            itoa(1, string, 10);
-            usart_print_string(string);
-            usart_transmit('\n');*/
-            global_mark_and_space.has_mark = false;
-            global_mark_and_space.has_space = false;
-            int8_t bit = nec_data_bit_from_pair(global_mark_and_space);
-            if(bit != INVALID_PAIR_TIMINGS) {
-                if(bit == 1) {
-                    BIT_SET(decoded_data, data_bit_counter);
-                }
-                data_bit_counter++;
-            } else {
-                PORTC = (1 << RED_LED);
-                reset();
-            }
+        if(new_segment.is_mark) {
+            data_pair.mark = new_segment;
+            data_pair.has_mark = true;
+        } else if(new_segment.is_space) {
+            data_pair.space = new_segment;
+            data_pair.has_space = true;
         } else {
-            if(new_segment.is_mark) {
-                global_mark_and_space.mark = new_segment;
-                global_mark_and_space.has_mark = true;
-            } else if(new_segment.is_space) {
-                global_mark_and_space.space = new_segment;
-                global_mark_and_space.has_space = true;
-            } else {
-                usart_print_string("e \n");
-            }
+            hard_reset();
         }
     } else {
         //this probably shouldn't happen 
-        reset();
+        hard_reset();
     }
 }
 
 void process_new_header_segment(Segment new_segment) {
     if(free_header_index >= HEADER_SEGMENTS_SIZE) {
         //something went wrong, we haven't matched a header to a protocol yet
-        //we don't want to add this mark to the header array because we'll be out of bounds.  let's reset
-        reset();
+        //we don't want to add this mark to the header array because we'll be out of bounds.  let's hard reset
+        hard_reset();
     } else {
         header_segments[free_header_index++] = new_segment;
         selected_protocol = protocol_from_header(header_segments, free_header_index);
     }
 }
 
-void reset() {
-    usart_transmit('r');
-    usart_transmit('e');
-    usart_transmit('s');
-    usart_transmit('e');
-    usart_transmit('t');
-    usart_transmit('\n');
+void hard_reset() {
+    usart_transmit_string("reset\n");
     //ignore all IR pulses for set period (e.g. 300ms) to wait out the current borked pulse and reset all variables to get a clean slate
+}
+
+void reset() {
+    
 }

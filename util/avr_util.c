@@ -48,7 +48,7 @@ void usart_transmit(unsigned char data) {
     UDR0 = data;
 }
 
-void usart_print_string(char* string) {
+void usart_transmit_string(char* string) {
     for(uint8_t i = 0; i < strlen(string); i++) {
         usart_transmit(string[i]);
     }
