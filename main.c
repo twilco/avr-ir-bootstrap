@@ -53,7 +53,6 @@ int main(void) {
 	of 4095 microseconds.  This is inadequate, considering the header high-segment of the NEC protocol is 9000 microseconds (9ms) <-- assuming 16MHz clock
     */
     while (1) {
-        //if(decoded_data == COM_11759_POWER_BTN) PORTC = (1 << BLUE_LED);
         if(mark_start != -1 && mark_end != -1) {
             //a new mark has been closed (start and end have event times are not -1) - let's process this new mark
             uint16_t mark_ticks = calculate_segment_ticks(mark_start, mark_end);
@@ -85,7 +84,7 @@ int main(void) {
             if(bit != INVALID_PAIR_TIMINGS) {
                 if(bit == 1) {
                     int pos = get_bit_position(NEC, data_bit_counter);
-                    if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == UNKNOWN_PROTOCOL) {
+                    if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == INVALID_PROTOCOL) {
                         hard_reset();
                     }
                     BIT_SET(decoded_data, pos);

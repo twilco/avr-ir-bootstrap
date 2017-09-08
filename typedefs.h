@@ -12,7 +12,7 @@ typedef enum Error_Codes {
     INVALID_PAIR_TIMINGS = -120,
     NO_BIT_POS_FOR_UNKNOWN,
     BIT_POS_CALC_ERROR,
-    UNKNOWN_PROTOCOL
+    INVALID_PROTOCOL
 } Error_codes;
 
 typedef struct Segment {
