@@ -13,6 +13,5 @@ bool within_range(int16_t range, int16_t expected, int16_t actual);
 int ticks_to_microseconds(uint32_t ticks);
 int calculate_segment_ticks(uint32_t segment_start, uint32_t segment_end);
 int get_bit_position(Protocol_Type protocol, uint8_t bit_counter);
-bool transmits_msb_first(Protocol_Type protocol);
 
 #endif /* GENERAL_UTIL_H_ */

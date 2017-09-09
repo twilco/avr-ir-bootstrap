@@ -11,9 +11,9 @@
 #include "protocols/nec_module.h"
 #include "remotes/sparkfun_com_11759.h"
 
-Protocol_Type protocol_from_header(Segment header_segments[], int size);
-void process_new_header_segment(Segment new_segment);
-void process_new_segment(Segment new_segment);
+Protocol_Type protocol_from_header(struct Segment header_segments[], int size);
+void process_new_header_segment(struct Segment new_segment);
+void process_new_segment(struct Segment new_segment);
 void hard_reset(); //used when an error occurs, and we need to recover.  resets state and ignores IR pulses for a certain amount of time
 void reset(); //an expected reset - reinitialize application state to prepare for next IR pulse
 
@@ -22,8 +22,8 @@ volatile uint8_t selected_protocol = UNKNOWN;
 volatile uint8_t free_header_index = 0;
 volatile uint8_t data_bit_counter = 0;
 volatile uint32_t decoded_data = 0;
-Segment header_segments[HEADER_SEGMENTS_SIZE];
-Pair data_pair;
+struct Segment header_segments[HEADER_SEGMENTS_SIZE];
+struct Pair data_pair;
 
 int main(void) {
     /* Set PINB1 as an output */
@@ -121,7 +121,7 @@ ISR(TIMER1_OVF_vect) {
     PORTC = 0x0; //clear any debug LEDs set on PORTC
 }
 
-Protocol_Type protocol_from_header(Segment header_segments[], int num_segments) {
+Protocol_Type protocol_from_header(struct Segment header_segments[], int num_segments) {
     if(num_segments == 1) return UNKNOWN;
     if(num_segments == 2) {
         if(is_nec_header(header_segments)) {
@@ -131,7 +131,7 @@ Protocol_Type protocol_from_header(Segment header_segments[], int num_segments) 
     return UNKNOWN;
 }
 
-void process_new_segment(Segment new_segment) {
+void process_new_segment(struct Segment new_segment) {
     if(selected_protocol == UNKNOWN) {
         //this segment must be part of the header since we haven't matched the header to a protocol yet
         process_new_header_segment(new_segment);
@@ -152,7 +152,7 @@ void process_new_segment(Segment new_segment) {
     }
 }
 
-void process_new_header_segment(Segment new_segment) {
+void process_new_header_segment(struct Segment new_segment) {
     if(free_header_index >= HEADER_SEGMENTS_SIZE) {
         //something went wrong, we haven't matched a header to a protocol yet
         //we don't want to add this mark to the header array because we'll be out of bounds.  let's hard reset

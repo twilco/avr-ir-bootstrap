@@ -9,7 +9,7 @@
 #define NEC_SPACE_LOGICAL_ZERO_US 562
 #define NEC_SPACE_LOGICAL_ONE_US 1687
 
-bool is_nec_header(Segment header_segments[]);
-int8_t nec_data_bit_from_pair(Pair mark_and_space);
+bool is_nec_header(struct Segment header_segments[]);
+int8_t nec_data_bit_from_pair(struct Pair mark_and_space);
 
 #endif /* NEC_MODULE_H_ */

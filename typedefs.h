@@ -15,15 +15,15 @@ typedef enum Error_Codes {
     INVALID_PROTOCOL
 } Error_codes;
 
-typedef struct Segment {
+struct Segment {
     bool is_mark;
     bool is_space;
     uint16_t microseconds;
 } Segment;
 
-typedef struct Pair {
-    Segment mark;
-    Segment space;
+struct Pair {
+    struct Segment mark;
+    struct Segment space;
     bool has_mark;
     bool has_space;
 } Pair;
