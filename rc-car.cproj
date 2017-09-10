@@ -121,7 +121,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="constants.h">
+    <Compile Include="avr_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="constants\ir_constants.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="constants\ir_constants.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
@@ -136,7 +142,10 @@
     <Compile Include="remotes\sparkfun_com_11759.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="typedefs.h">
+    <Compile Include="types\errors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="types\ir_types.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="util\avr_util.c">
@@ -151,8 +160,16 @@
     <Compile Include="util\general_util.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="util\ir_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\ir_util.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="constants" />
+    <Folder Include="types" />
     <Folder Include="remotes" />
     <Folder Include="util" />
     <Folder Include="protocols" />

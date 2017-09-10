@@ -1,7 +1,8 @@
-#include "../constants.h"
-#include <stdbool.h>
-#include <avr/io.h>
-#include <string.h>
+#include "avr_util.h"
+#include "../avr_config.h"
+
+#define BAUD_RATE 1000000
+#define CALCULATED_BAUD ((F_CPU / 16 / BAUD_RATE) - 1)
 
 bool icp_listening_for_rising() {
     if(TCCR1B & (1 << ICES1)) {
@@ -43,7 +44,7 @@ void usart_init() {
 
 void usart_transmit(unsigned char data) {
     // Wait for transmit buffer to be empty
-    while ( !( UCSR0A & (1 << UDRE0)) );
+    while ( !(UCSR0A & (1 << UDRE0)) );
     
     UDR0 = data;
 }

@@ -1,6 +1,10 @@
 #ifndef AVR_UTIL_H_
 #define AVR_UTIL_H_
 
+#include <avr/io.h>
+#include <stdbool.h>
+#include <string.h>
+
 bool icp_listening_for_rising();
 bool icp_listening_for_falling();
 void icp_listen_for_rising();

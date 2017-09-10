@@ -1,17 +1,21 @@
-#include "constants.h"
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <stdlib.h>
-/* bools take a a byte each and there are more memory efficient ways to accomplish 
-   bool-like values, but I'm not strapped for space and will take a memory hit in favor of readability */
-#include <stdbool.h>
-#include "typedefs.h"
+#include "avr_config.h"
+
+#include "types/ir_types.h"
+#include "types/errors.h"
 #include "util/avr_util.h"
 #include "util/general_util.h"
+#include "util/ir_util.h"
 #include "protocols/nec_module.h"
 #include "remotes/sparkfun_com_11759.h"
 
-Protocol_Type protocol_from_header(struct Segment header_segments[], int size);
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define HEADER_SEGMENTS_SIZE 15
+#define DATA_SEGMENTS_SIZE 40
+
 void process_new_header_segment(struct Segment new_segment);
 void process_new_segment(struct Segment new_segment);
 void hard_reset(); //used when an error occurs, and we need to recover.  resets state and ignores IR pulses for a certain amount of time
@@ -83,7 +87,7 @@ int main(void) {
             int8_t bit = nec_data_bit_from_pair(data_pair);
             if(bit != INVALID_PAIR_TIMINGS) {
                 if(bit == 1) {
-                    int pos = get_bit_position(NEC, data_bit_counter);
+                    int16_t pos = get_bit_position(NEC, data_bit_counter);
                     if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == INVALID_PROTOCOL) {
                         hard_reset();
                     }
@@ -119,16 +123,6 @@ ISR(TIMER1_CAPT_vect) {
 
 ISR(TIMER1_OVF_vect) {
     PORTC = 0x0; //clear any debug LEDs set on PORTC
-}
-
-Protocol_Type protocol_from_header(struct Segment header_segments[], int num_segments) {
-    if(num_segments == 1) return UNKNOWN;
-    if(num_segments == 2) {
-        if(is_nec_header(header_segments)) {
-            return NEC;
-        }
-    }
-    return UNKNOWN;
 }
 
 void process_new_segment(struct Segment new_segment) {
