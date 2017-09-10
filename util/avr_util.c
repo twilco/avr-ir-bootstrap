@@ -1,8 +1,4 @@
 #include "avr_util.h"
-#include "../avr_config.h"
-
-#define BAUD_RATE 1000000
-#define CALCULATED_BAUD ((F_CPU / 16 / BAUD_RATE) - 1)
 
 bool icp_listening_for_rising() {
     if(TCCR1B & (1 << ICES1)) {

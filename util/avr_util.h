@@ -1,9 +1,13 @@
 #ifndef AVR_UTIL_H_
 #define AVR_UTIL_H_
 
+#include "../avr_config.h"
 #include <avr/io.h>
 #include <stdbool.h>
 #include <string.h>
+
+#define BAUD_RATE 1000000
+#define CALCULATED_BAUD ((F_CPU / 16 / BAUD_RATE) - 1)
 
 bool icp_listening_for_rising();
 bool icp_listening_for_falling();

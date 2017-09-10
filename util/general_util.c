@@ -1,11 +1,4 @@
 #include "general_util.h"
-#include "../avr_config.h"
-
-#include <stdint.h>
-
-#define MAX_16_BIT_INT 65535
-#define MICROSECONDS_IN_SECOND_F 1000000.0
-#define MICROSECOND_MULT_RATIO (TC1_PRESCALER * MICROSECONDS_IN_SECOND_F) / F_CPU
 
 uint16_t ticks_to_microseconds(uint32_t ticks) {
     return ticks * MICROSECOND_MULT_RATIO;
