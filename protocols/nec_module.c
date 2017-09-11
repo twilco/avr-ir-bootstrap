@@ -19,6 +19,14 @@ bool is_nec_header(struct Segment header_segments[])
     return false;
 }
 
+bool all_data_bits_received(uint8_t data_bit_counter) 
+{
+    if(data_bit_counter == NUM_NEC_DATA_BITS) {
+        return true;
+    }
+    return false;
+}
+
 int8_t nec_data_bit_from_pair(struct Pair mark_and_space) 
 {
     if(within_range(IR_SIGNAL_WIGGLE_ROOM, NEC_MARK_US, mark_and_space.mark.microseconds) && within_range(IR_SIGNAL_WIGGLE_ROOM, NEC_SPACE_LOGICAL_ZERO_US, mark_and_space.space.microseconds)) {

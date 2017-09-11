@@ -13,15 +13,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define HEADER_SEGMENTS_SIZE 15
-#define DATA_SEGMENTS_SIZE 40
+#define HEADER_SEGMENTS_SIZE (uint8_t) 15
+#define DATA_SEGMENTS_SIZE (uint8_t) 40
+#define UNSET_SEGMENT (int32_t) -1
 
 void process_new_header_segment(struct Segment new_segment);
 void process_new_segment(struct Segment new_segment);
 void hard_reset(); //used when an error occurs, and we need to recover.  resets state and ignores IR pulses for a certain amount of time
 void reset(); //an expected reset - reinitialize application state to prepare for next IR pulse
 
-volatile int32_t mark_start = -1, mark_end = -1, space_start = -1, space_end = -1;
+volatile int32_t mark_start = UNSET_SEGMENT, mark_end = UNSET_SEGMENT, space_start = UNSET_SEGMENT, space_end = UNSET_SEGMENT;
 volatile uint8_t selected_protocol = UNKNOWN;
 volatile uint8_t free_header_index = 0;
 volatile uint8_t data_bit_counter = 0;
@@ -51,15 +52,15 @@ int main(void)
     /* Start Timer1 with a prescaler of 8 */
     TCCR1B |= (1 << CS11);
     /*
-	 - Prescaler of 8 will give our input capture the ability to capture events with
+	 - Prescaler of 8 on TC1 will give our input capture the ability to capture events with
 	lengths from .5 microseconds (1 tick) to 32767 microseconds (65535 ticks) <-- assuming 16MHz clock
 		
 	 - Prescaler of 1 (no prescaler) can only capture a maximum event (without guaranteed overflow, which would be annoying to consistently deal with)
 	of 4095 microseconds.  This is inadequate, considering the header high-segment of the NEC protocol is 9000 microseconds (9ms) <-- assuming 16MHz clock
     */
     while (1) {
-        if(mark_start != -1 && mark_end != -1) {
-            //a new mark has been closed (start and end have event times are not -1) - let's process this new mark
+        if(mark_start != UNSET_SEGMENT && mark_end != UNSET_SEGMENT) {
+            //a new mark has been closed (it's start and end times have been set) - let's process it
             uint16_t mark_ticks = calculate_segment_ticks(mark_start, mark_end);
             mark_start = -1;
             mark_end = -1;
@@ -70,8 +71,8 @@ int main(void)
             process_new_segment(new_segment);
         }
         
-        if(space_start != -1 && space_end != -1) {
-            //a new space has been closed (start and end have event times are not -1) - let's process this new space
+        if(space_start != UNSET_SEGMENT && space_end != UNSET_SEGMENT) {
+            //a new space has been closed (it's start and end times have been set) - let's process it
             uint16_t space_ticks = calculate_segment_ticks(space_start, space_end);
             space_start = -1;
             space_end = -1;
@@ -136,8 +137,13 @@ void process_new_segment(struct Segment new_segment)
     } else if(selected_protocol == NEC) {
         //this is a logical data segment for the NEC protocol
         if(new_segment.is_mark) {
-            data_pair.mark = new_segment;
-            data_pair.has_mark = true;
+            if(all_data_bits_received(data_bit_counter)) {
+                //in the NEC protocol, there are typically 32 data bits transferred, followed by a single trailer mark to signal the end of transmission.  we're done here, so let's reset program state
+                reset();
+            } else {
+                data_pair.mark = new_segment;
+                data_pair.has_mark = true;
+            }
         } else if(new_segment.is_space) {
             data_pair.space = new_segment;
             data_pair.has_space = true;
@@ -168,7 +174,23 @@ void hard_reset()
     //ignore all IR pulses for set period (e.g. 300ms) to wait out the current borked pulse and reset all variables to get a clean slate
 }
 
+
+/*
+  This function should clear program state in the event of an expected reset (e.g. end of one full transmission).
+*/
 void reset() 
 {
+    mark_start = UNSET_SEGMENT;
+    mark_end = UNSET_SEGMENT;
+    space_start = UNSET_SEGMENT;
+    space_end = UNSET_SEGMENT;
+    selected_protocol = UNKNOWN;
+    data_bit_counter = 0;
+    decoded_data = 0;
     
+    for(uint8_t i = 0; i < free_header_index; i++) {
+        reinitialize_segment(&header_segments[i]);
+    }
+    free_header_index = 0;
+    reinitialize_pair(&data_pair);
 }
