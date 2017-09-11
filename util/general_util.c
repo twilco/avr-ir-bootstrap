@@ -1,10 +1,12 @@
 #include "general_util.h"
 
-uint16_t ticks_to_microseconds(uint32_t ticks) {
+uint16_t ticks_to_microseconds(uint32_t ticks) 
+{
     return ticks * MICROSECOND_MULT_RATIO;
 }
 
-uint16_t calculate_segment_ticks(uint32_t segment_start, uint32_t segment_end) {
+uint16_t calculate_segment_ticks(uint32_t segment_start, uint32_t segment_end) 
+{
     if(segment_start > segment_end) {
         //the timer must've overflown between the time the segment started and when it ended,
         //so let's take that in to account when calculating the segment length
@@ -13,7 +15,8 @@ uint16_t calculate_segment_ticks(uint32_t segment_start, uint32_t segment_end) {
     return segment_end - segment_start;
 }
 
-bool within_range(int16_t range, int16_t expected, int16_t actual) {
+bool within_range(int16_t range, int16_t expected, int16_t actual) 
+{
     int16_t min = expected - range;
     int16_t max = range + expected;
     if(actual < min || actual > max) return false;

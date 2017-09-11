@@ -29,7 +29,8 @@ volatile uint32_t decoded_data = 0;
 struct Segment header_segments[HEADER_SEGMENTS_SIZE];
 struct Pair data_pair;
 
-int main(void) {
+int main(void) 
+{
     /* Set PINB1 as an output */
     DDRB = (1 << PINB1);
     
@@ -101,7 +102,8 @@ int main(void) {
     }
 }
 
-ISR(TIMER1_CAPT_vect) {
+ISR(TIMER1_CAPT_vect) 
+{
     if(icp_listening_for_falling()) {
         mark_start = ICR1;
         if(space_start != -1) {
@@ -121,11 +123,13 @@ ISR(TIMER1_CAPT_vect) {
     }        
 }
 
-ISR(TIMER1_OVF_vect) {
+ISR(TIMER1_OVF_vect) 
+{
     PORTC = 0x0; //clear any debug LEDs set on PORTC
 }
 
-void process_new_segment(struct Segment new_segment) {
+void process_new_segment(struct Segment new_segment) 
+{
     if(selected_protocol == UNKNOWN) {
         //this segment must be part of the header since we haven't matched the header to a protocol yet
         process_new_header_segment(new_segment);
@@ -146,7 +150,8 @@ void process_new_segment(struct Segment new_segment) {
     }
 }
 
-void process_new_header_segment(struct Segment new_segment) {
+void process_new_header_segment(struct Segment new_segment) 
+{
     if(free_header_index >= HEADER_SEGMENTS_SIZE) {
         //something went wrong, we haven't matched a header to a protocol yet
         //we don't want to add this mark to the header array because we'll be out of bounds.  let's hard reset
@@ -157,11 +162,13 @@ void process_new_header_segment(struct Segment new_segment) {
     }
 }
 
-void hard_reset() {
+void hard_reset() 
+{
     usart_transmit_string("reset\n");
     //ignore all IR pulses for set period (e.g. 300ms) to wait out the current borked pulse and reset all variables to get a clean slate
 }
 
-void reset() {
+void reset() 
+{
     
 }
