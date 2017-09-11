@@ -2,6 +2,14 @@
 
 extern const uint8_t NUM_NEC_DATA_BITS;
 
+bool all_data_bits_received(Protocol_Type protocol, uint8_t data_bit_counter)
+{
+    if(protocol == NEC && data_bit_counter == NUM_NEC_DATA_BITS) {
+        return true;
+    }
+    return false;
+}
+
 int16_t get_bit_position(Protocol_Type protocol, uint8_t bit_counter) 
 {
     if(protocol == UNKNOWN) {

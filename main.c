@@ -19,8 +19,8 @@
 
 void process_new_header_segment(struct Segment new_segment);
 void process_new_segment(struct Segment new_segment);
-void hard_reset(); //used when an error occurs, and we need to recover.  resets state and ignores IR pulses for a certain amount of time
-void reset(); //an expected reset - reinitialize application state to prepare for next IR pulse
+void hard_reset();
+void soft_reset();
 
 volatile int32_t mark_start = UNSET_SEGMENT, mark_end = UNSET_SEGMENT, space_start = UNSET_SEGMENT, space_end = UNSET_SEGMENT;
 volatile uint8_t selected_protocol = UNKNOWN;
@@ -137,9 +137,9 @@ void process_new_segment(struct Segment new_segment)
     } else if(selected_protocol == NEC) {
         //this is a logical data segment for the NEC protocol
         if(new_segment.is_mark) {
-            if(all_data_bits_received(data_bit_counter)) {
+            if(all_data_bits_received(NEC, data_bit_counter)) {
                 //in the NEC protocol, there are typically 32 data bits transferred, followed by a single trailer mark to signal the end of transmission.  we're done here, so let's reset program state
-                reset();
+                soft_reset();
             } else {
                 data_pair.mark = new_segment;
                 data_pair.has_mark = true;
@@ -168,6 +168,9 @@ void process_new_header_segment(struct Segment new_segment)
     }
 }
 
+/*
+  Recovers from situations in which the program has entered an unexpected state and can't continue.
+*/
 void hard_reset() 
 {
     usart_transmit_string("reset\n");
@@ -176,9 +179,9 @@ void hard_reset()
 
 
 /*
-  This function should clear program state in the event of an expected reset (e.g. end of one full transmission).
+  Clears program state in the event of an expected reset (e.g. end of one full transmission).
 */
-void reset() 
+void soft_reset() 
 {
     mark_start = UNSET_SEGMENT;
     mark_end = UNSET_SEGMENT;
