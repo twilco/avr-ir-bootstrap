@@ -22,11 +22,13 @@ void process_new_segment(struct Segment new_segment);
 void hard_reset();
 void soft_reset();
 
+volatile bool hard_reset_required = false;
 volatile int32_t mark_start = UNSET_SEGMENT, mark_end = UNSET_SEGMENT, space_start = UNSET_SEGMENT, space_end = UNSET_SEGMENT;
+volatile uint32_t decoded_data = 0;
+volatile uint16_t tc1_overflows = 0;
 volatile uint8_t selected_protocol = UNKNOWN;
 volatile uint8_t free_header_index = 0;
 volatile uint8_t data_bit_counter = 0;
-volatile uint32_t decoded_data = 0;
 struct Segment header_segments[HEADER_SEGMENTS_SIZE];
 struct Pair data_pair;
 
@@ -59,47 +61,49 @@ int main(void)
 	of 4095 microseconds.  This is inadequate, considering the header high-segment of the NEC protocol is 9000 microseconds (9ms) <-- assuming 16MHz clock
     */
     while (1) {
-        if(mark_start != UNSET_SEGMENT && mark_end != UNSET_SEGMENT) {
-            //a new mark has been closed (it's start and end times have been set) - let's process it
-            uint16_t mark_ticks = calculate_segment_ticks(mark_start, mark_end);
-            mark_start = -1;
-            mark_end = -1;
-            struct Segment new_segment;
-            new_segment.is_mark = true;
-            new_segment.is_space = false;
-            new_segment.microseconds = ticks_to_microseconds(mark_ticks);
-            process_new_segment(new_segment);
-        }
-        
-        if(space_start != UNSET_SEGMENT && space_end != UNSET_SEGMENT) {
-            //a new space has been closed (it's start and end times have been set) - let's process it
-            uint16_t space_ticks = calculate_segment_ticks(space_start, space_end);
-            space_start = -1;
-            space_end = -1;
-            struct Segment new_segment;
-            new_segment.is_mark = false;
-            new_segment.is_space = true;
-            new_segment.microseconds = ticks_to_microseconds(space_ticks);
-            process_new_segment(new_segment);
-        }
-        
-        if(selected_protocol != UNKNOWN && data_pair.has_mark == true && data_pair.has_space == true) {
-            data_pair.has_mark = false;
-            data_pair.has_space = false;
-            int8_t bit = nec_data_bit_from_pair(data_pair);
-            if(bit != INVALID_PAIR_TIMINGS) {
-                if(bit == 1) {
-                    int16_t pos = get_bit_position(NEC, data_bit_counter);
-                    if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == INVALID_PROTOCOL) {
-                        hard_reset();
-                    }
-                    BIT_SET(decoded_data, pos);
-                }
-                data_bit_counter++;
-            } else {
-                hard_reset();
+        if(!hard_reset_required) {
+            if(mark_start != UNSET_SEGMENT && mark_end != UNSET_SEGMENT) {
+                //a new mark has been closed (it's start and end times have been set) - let's process it
+                uint16_t mark_ticks = calculate_segment_ticks(mark_start, mark_end);
+                mark_start = -1;
+                mark_end = -1;
+                struct Segment new_segment;
+                new_segment.is_mark = true;
+                new_segment.is_space = false;
+                new_segment.microseconds = ticks_to_microseconds(mark_ticks);
+                process_new_segment(new_segment);
             }
-        }     
+                    
+            if(space_start != UNSET_SEGMENT && space_end != UNSET_SEGMENT) {
+                //a new space has been closed (it's start and end times have been set) - let's process it
+                uint16_t space_ticks = calculate_segment_ticks(space_start, space_end);
+                space_start = -1;
+                space_end = -1;
+                struct Segment new_segment;
+                new_segment.is_mark = false;
+                new_segment.is_space = true;
+                new_segment.microseconds = ticks_to_microseconds(space_ticks);
+                process_new_segment(new_segment);
+            }
+                    
+            if(selected_protocol != UNKNOWN && data_pair.has_mark == true && data_pair.has_space == true) {
+                data_pair.has_mark = false;
+                data_pair.has_space = false;
+                int8_t bit = nec_data_bit_from_pair(data_pair);
+                if(bit != INVALID_PAIR_TIMINGS) {
+                    if(bit == 1) {
+                        int16_t pos = get_bit_position(NEC, data_bit_counter);
+                        if(pos == NO_BIT_POS_FOR_UNKNOWN || pos == BIT_POS_CALC_ERROR || pos == INVALID_PROTOCOL) {
+                            hard_reset();
+                        }
+                        BIT_SET(decoded_data, pos);
+                    }
+                    data_bit_counter++;
+                    } else {
+                    hard_reset();
+                }
+            }
+        } 
     }
 }
 
@@ -127,6 +131,12 @@ ISR(TIMER1_CAPT_vect)
 ISR(TIMER1_OVF_vect) 
 {
     PORTC = 0x0; //clear any debug LEDs set on PORTC
+    
+    if(tc1_overflows == 10) {
+        soft_reset();
+    } else if(hard_reset_required) {
+        tc1_overflows++;
+    }
 }
 
 void process_new_segment(struct Segment new_segment) 
@@ -170,11 +180,16 @@ void process_new_header_segment(struct Segment new_segment)
 
 /*
   Recovers from situations in which the program has entered an unexpected state and can't continue.
+  We'll set a flag to let the rest of the program to ignore everything else, and once a certain time has
+  passed (determined by timer overflows), we'll do a soft reset to reinitialize program state.
+  
+  We can't simply call a soft_reset() here to reinitialize program state, because code following a hard_reset()
+  call could muck up that freshly reinitialized state.
 */
 void hard_reset() 
 {
     usart_transmit_string("reset\n");
-    //ignore all IR pulses for set period (e.g. 300ms) to wait out the current borked pulse and reset all variables to get a clean slate
+    hard_reset_required = true;
 }
 
 
@@ -183,11 +198,13 @@ void hard_reset()
 */
 void soft_reset() 
 {
+    hard_reset_required = false;
     mark_start = UNSET_SEGMENT;
     mark_end = UNSET_SEGMENT;
     space_start = UNSET_SEGMENT;
     space_end = UNSET_SEGMENT;
     selected_protocol = UNKNOWN;
+    tc1_overflows = 0;
     data_bit_counter = 0;
     decoded_data = 0;
     
