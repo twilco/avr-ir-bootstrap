@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 bool is_nec_header(struct Segment header_segments[]);
+bool is_nec_repeat_header(struct Segment header_segments[]);
 int8_t nec_data_bit_from_pair(struct Pair mark_and_space);
 
 #endif /* NEC_MODULE_H_ */

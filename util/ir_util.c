@@ -36,6 +36,11 @@ Protocol_Type protocol_from_header(struct Segment header_segments[], uint8_t num
             return NEC;
         }
     }
+    if(num_segments == 3) {
+        if(is_nec_repeat_header(header_segments)) {
+            return NEC_REPEAT;
+        }
+    }
     return UNKNOWN;
 }
 

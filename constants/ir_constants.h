@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-extern const uint16_t IR_SIGNAL_WIGGLE_ROOM;
+extern const uint16_t IR_SIGNAL_WIGGLE_ROOM_US;
 
 #endif /* IR_CONSTANTS_H_ */

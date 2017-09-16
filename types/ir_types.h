@@ -19,7 +19,8 @@ struct Pair {
 
 typedef enum Protocol_Type {
     UNKNOWN,
-    NEC
+    NEC,
+    NEC_REPEAT
 } Protocol_Type;
 
 #endif /* IR_TYPES_H_ */

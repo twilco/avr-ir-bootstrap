@@ -99,7 +99,7 @@ int main(void)
                         BIT_SET(decoded_data, pos);
                     }
                     data_bit_counter++;
-                    } else {
+                } else {
                     hard_reset();
                 }
             }
@@ -188,10 +188,9 @@ void process_new_header_segment(struct Segment new_segment)
 */
 void hard_reset() 
 {
-    usart_transmit_string("reset\n");
+    usart_transmit_string("hard reset\n");
     hard_reset_required = true;
 }
-
 
 /*
   Clears program state in the event of an expected reset (e.g. end of one full transmission).
