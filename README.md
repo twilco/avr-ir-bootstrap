@@ -40,11 +40,11 @@ The **address** portion of the NEC protocol is a unique value assigned to each m
 
 The **command** is exactly what you think it is - a unique value arbitrarily chosen by the IR transmitter that corresponds to whatever triggered the transmission (e.g. a button press on a remote).
 
-So, for example, [Sparkfun's COM-11759](https://www.sparkfun.com/products/11759) remote's power button transmits `10000111011111101100000100111` when pressed.  Let's break that down from left to right:
+So, for example, [Sparkfun's COM-11759](https://www.sparkfun.com/products/11759) remote's power button transmits `00010000111011111101100000100111` when pressed.  Let's break that down from left to right:
 
-`10000111` - the 8-bit address specific to this remote
+`00010000` - the 8-bit address specific to this remote
 
-`01111110` - the inverse of this address (all buttons on this remote transmit these same 16 bits to start)
+`11101111` - the inverse of this address (all buttons on this remote transmit these same 16 bits to start)
 
 `11011000` - the command, arbitrarily chosen by Sparkfun for this button
 
