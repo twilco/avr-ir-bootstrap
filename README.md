@@ -48,6 +48,6 @@ So, for example, [Sparkfun's COM-11759](https://www.sparkfun.com/products/11759)
 
 `11011000` - the command, arbitrarily chosen by Sparkfun for this button
 
-`00100111` - the invserse of that command
+`00100111` - the inverse of that command
 
 
