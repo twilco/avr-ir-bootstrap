@@ -1,0 +1,1146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
+    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
+    <avrdevice>ATmega328P</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>rc-car</AssemblyName>
+    <Name>avr-ir-bootstrap</Name>
+    <RootNamespace>rc-car</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.28.1" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
+    <avrtoolserialnumber />
+    <avrdeviceexpectedsignature>0x1E950F</avrdeviceexpectedsignature>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atmega328p -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\gcc\dev\atmega328p"</avrgcc.common.Device>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>NDEBUG</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+      </AvrGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGcc>
+        <avrgcc.common.Device>-mmcu=atmega328p -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\gcc\dev\atmega328p"</avrgcc.common.Device>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>DEBUG</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\include</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avrgcc.linker.libraries.Libraries>
+        <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
+      </AvrGcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src\avr_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\constants\ir_constants.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\constants\ir_constants.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\protocols\nec_module.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\protocols\nec_module.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\remotes\sparkfun_com_11759.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\types\errors.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\types\ir_types.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\avr_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\avr_util.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\unity_entry.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\general_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\general_util.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\ir_util.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\util\ir_util.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\" />
+    <Folder Include=".git\hooks\" />
+    <Folder Include=".git\info\" />
+    <Folder Include=".git\logs\" />
+    <Folder Include=".git\logs\refs\" />
+    <Folder Include=".git\logs\refs\heads\" />
+    <Folder Include=".git\logs\refs\remotes\" />
+    <Folder Include=".git\logs\refs\remotes\origin\" />
+    <Folder Include=".git\objects\" />
+    <Folder Include=".git\objects\00\" />
+    <Folder Include=".git\objects\01\" />
+    <Folder Include=".git\objects\03\" />
+    <Folder Include=".git\objects\07\" />
+    <Folder Include=".git\objects\08\" />
+    <Folder Include=".git\objects\0b\" />
+    <Folder Include=".git\objects\0d\" />
+    <Folder Include=".git\objects\0e\" />
+    <Folder Include=".git\objects\10\" />
+    <Folder Include=".git\objects\11\" />
+    <Folder Include=".git\objects\12\" />
+    <Folder Include=".git\objects\14\" />
+    <Folder Include=".git\objects\16\" />
+    <Folder Include=".git\objects\17\" />
+    <Folder Include=".git\objects\18\" />
+    <Folder Include=".git\objects\1b\" />
+    <Folder Include=".git\objects\1d\" />
+    <Folder Include=".git\objects\1e\" />
+    <Folder Include=".git\objects\24\" />
+    <Folder Include=".git\objects\25\" />
+    <Folder Include=".git\objects\27\" />
+    <Folder Include=".git\objects\28\" />
+    <Folder Include=".git\objects\29\" />
+    <Folder Include=".git\objects\2a\" />
+    <Folder Include=".git\objects\2c\" />
+    <Folder Include=".git\objects\2d\" />
+    <Folder Include=".git\objects\30\" />
+    <Folder Include=".git\objects\31\" />
+    <Folder Include=".git\objects\35\" />
+    <Folder Include=".git\objects\36\" />
+    <Folder Include=".git\objects\38\" />
+    <Folder Include=".git\objects\3b\" />
+    <Folder Include=".git\objects\3c\" />
+    <Folder Include=".git\objects\3d\" />
+    <Folder Include=".git\objects\3e\" />
+    <Folder Include=".git\objects\40\" />
+    <Folder Include=".git\objects\41\" />
+    <Folder Include=".git\objects\42\" />
+    <Folder Include=".git\objects\43\" />
+    <Folder Include=".git\objects\45\" />
+    <Folder Include=".git\objects\46\" />
+    <Folder Include=".git\objects\49\" />
+    <Folder Include=".git\objects\51\" />
+    <Folder Include=".git\objects\52\" />
+    <Folder Include=".git\objects\54\" />
+    <Folder Include=".git\objects\55\" />
+    <Folder Include=".git\objects\56\" />
+    <Folder Include=".git\objects\57\" />
+    <Folder Include=".git\objects\5b\" />
+    <Folder Include=".git\objects\61\" />
+    <Folder Include=".git\objects\62\" />
+    <Folder Include=".git\objects\63\" />
+    <Folder Include=".git\objects\64\" />
+    <Folder Include=".git\objects\65\" />
+    <Folder Include=".git\objects\67\" />
+    <Folder Include=".git\objects\68\" />
+    <Folder Include=".git\objects\6a\" />
+    <Folder Include=".git\objects\6b\" />
+    <Folder Include=".git\objects\6d\" />
+    <Folder Include=".git\objects\6f\" />
+    <Folder Include=".git\objects\70\" />
+    <Folder Include=".git\objects\71\" />
+    <Folder Include=".git\objects\72\" />
+    <Folder Include=".git\objects\73\" />
+    <Folder Include=".git\objects\74\" />
+    <Folder Include=".git\objects\76\" />
+    <Folder Include=".git\objects\77\" />
+    <Folder Include=".git\objects\78\" />
+    <Folder Include=".git\objects\79\" />
+    <Folder Include=".git\objects\7a\" />
+    <Folder Include=".git\objects\7c\" />
+    <Folder Include=".git\objects\7d\" />
+    <Folder Include=".git\objects\7f\" />
+    <Folder Include=".git\objects\80\" />
+    <Folder Include=".git\objects\81\" />
+    <Folder Include=".git\objects\82\" />
+    <Folder Include=".git\objects\83\" />
+    <Folder Include=".git\objects\84\" />
+    <Folder Include=".git\objects\85\" />
+    <Folder Include=".git\objects\87\" />
+    <Folder Include=".git\objects\88\" />
+    <Folder Include=".git\objects\89\" />
+    <Folder Include=".git\objects\8a\" />
+    <Folder Include=".git\objects\8b\" />
+    <Folder Include=".git\objects\8c\" />
+    <Folder Include=".git\objects\8d\" />
+    <Folder Include=".git\objects\8f\" />
+    <Folder Include=".git\objects\90\" />
+    <Folder Include=".git\objects\91\" />
+    <Folder Include=".git\objects\93\" />
+    <Folder Include=".git\objects\94\" />
+    <Folder Include=".git\objects\96\" />
+    <Folder Include=".git\objects\97\" />
+    <Folder Include=".git\objects\98\" />
+    <Folder Include=".git\objects\99\" />
+    <Folder Include=".git\objects\9b\" />
+    <Folder Include=".git\objects\9d\" />
+    <Folder Include=".git\objects\a0\" />
+    <Folder Include=".git\objects\a1\" />
+    <Folder Include=".git\objects\a4\" />
+    <Folder Include=".git\objects\a5\" />
+    <Folder Include=".git\objects\a6\" />
+    <Folder Include=".git\objects\a7\" />
+    <Folder Include=".git\objects\a9\" />
+    <Folder Include=".git\objects\aa\" />
+    <Folder Include=".git\objects\ac\" />
+    <Folder Include=".git\objects\ad\" />
+    <Folder Include=".git\objects\af\" />
+    <Folder Include=".git\objects\b4\" />
+    <Folder Include=".git\objects\b5\" />
+    <Folder Include=".git\objects\b6\" />
+    <Folder Include=".git\objects\ba\" />
+    <Folder Include=".git\objects\bb\" />
+    <Folder Include=".git\objects\bc\" />
+    <Folder Include=".git\objects\be\" />
+    <Folder Include=".git\objects\bf\" />
+    <Folder Include=".git\objects\c1\" />
+    <Folder Include=".git\objects\c2\" />
+    <Folder Include=".git\objects\c4\" />
+    <Folder Include=".git\objects\c7\" />
+    <Folder Include=".git\objects\c9\" />
+    <Folder Include=".git\objects\ca\" />
+    <Folder Include=".git\objects\cb\" />
+    <Folder Include=".git\objects\cc\" />
+    <Folder Include=".git\objects\cd\" />
+    <Folder Include=".git\objects\d0\" />
+    <Folder Include=".git\objects\d2\" />
+    <Folder Include=".git\objects\d3\" />
+    <Folder Include=".git\objects\d4\" />
+    <Folder Include=".git\objects\d5\" />
+    <Folder Include=".git\objects\d7\" />
+    <Folder Include=".git\objects\da\" />
+    <Folder Include=".git\objects\db\" />
+    <Folder Include=".git\objects\dc\" />
+    <Folder Include=".git\objects\de\" />
+    <Folder Include=".git\objects\e0\" />
+    <Folder Include=".git\objects\e2\" />
+    <Folder Include=".git\objects\e3\" />
+    <Folder Include=".git\objects\e4\" />
+    <Folder Include=".git\objects\e5\" />
+    <Folder Include=".git\objects\e8\" />
+    <Folder Include=".git\objects\ea\" />
+    <Folder Include=".git\objects\f0\" />
+    <Folder Include=".git\objects\f1\" />
+    <Folder Include=".git\objects\f3\" />
+    <Folder Include=".git\objects\f4\" />
+    <Folder Include=".git\objects\f5\" />
+    <Folder Include=".git\objects\f6\" />
+    <Folder Include=".git\objects\f8\" />
+    <Folder Include=".git\objects\f9\" />
+    <Folder Include=".git\objects\fa\" />
+    <Folder Include=".git\objects\fc\" />
+    <Folder Include=".git\objects\ff\" />
+    <Folder Include=".git\objects\info\" />
+    <Folder Include=".git\objects\pack\" />
+    <Folder Include=".git\refs\" />
+    <Folder Include=".git\refs\heads\" />
+    <Folder Include=".git\refs\remotes\" />
+    <Folder Include=".git\refs\remotes\origin\" />
+    <Folder Include=".git\refs\tags\" />
+    <Folder Include=".vs\" />
+    <Folder Include=".vs\rc-car\" />
+    <Folder Include=".vs\rc-car\v14\" />
+    <Folder Include="img\" />
+    <Folder Include="src" />
+    <Folder Include="src\constants\" />
+    <Folder Include="src\protocols\" />
+    <Folder Include="src\remotes\" />
+    <Folder Include="src\types\" />
+    <Folder Include="src\util\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\COMMIT_EDITMSG">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\config">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\description">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\FETCH_HEAD">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\HEAD">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\applypatch-msg.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\commit-msg.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\post-update.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\pre-applypatch.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\pre-commit.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\pre-push.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\pre-rebase.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\pre-receive.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\prepare-commit-msg.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\hooks\update.sample">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\index">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\info\exclude">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\HEAD">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\heads\fix-nec-decoding">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\heads\master">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\heads\readme">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\remotes\origin\master">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\remotes\origin\readme">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\logs\refs\stash">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\00\4a5be530b4039a486648dada2313495dcb074c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\00\631dfa177bf0f43e92d73690585c44d3c7784b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\01\25c308580df14af2912fa85a99b27e74dab0d9">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\03\6ce214c555375dcc7ba25a12baf3adcda07960">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\03\9dd7cbb583cc1e88398ba98d0627e6b3c00c0a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\07\c5ebc0eaf8520fb7e0cfa5691dac08b8af0d20">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\08\4999635324208075cb5f9439e80a8e1a0aa8b4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\0b\e633e2f7645d745799ece1ecbd6e9e15b1ea8a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\0d\dec3aaca96ab8121d3f9206e342372d9f413fe">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\0e\73797684bc9d1b81151447c583908743a949d4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\10\1f25c9ae5e92eb9cd12ca2a9a50fa06b0baa98">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\10\808bc9142c9845d64db6104df7981ccd994f95">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\11\1df6f9d3cb906293f3f0d56418086cbd8f7a3c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\11\67547b003dbf78c1530bd21fb270107ccc792f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\12\3d57e763980b9c2385fc24387cc75e431d978a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\14\6ea2316f992443405a31d58bec3f10805eaa59">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\16\245fdd74b5ed026549ca6f5c3e46ed6be8fb63">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\17\8d99f76a3b8a27087e45d89dec2029efeecd19">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\18\54505a674dac9e84440b72c6db066a085859fd">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\1b\1902cb24da520eb461825e678820e529463c07">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\1b\c95764eb95dc06959c6801450cf6edaf28f41b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\1b\f999e1471104df3d5411483cb2c4d4acce4bc5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\1d\ed1a63fcdbaa057f52f44768f5f98dc3f35678">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\1e\5d8a9ea0eaedfc76788aa2bea442033e2138be">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\24\7f6cc5c88960df5b592af048edaf51c0a0e3ce">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\25\50444296b3a0af42f0f326ab918e4e0b5aaef4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\25\92cfe1c4725ad47e4e77a342c8137b83c28223">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\27\2f4a1595d76f3a6220439f6f3a030f45a96145">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\28\4a9c30519be02ff642a378a93fca6747866f29">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\29\fd66276440cb6f9508b14942dd34139575611e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\2a\40dde8ae2f94c74535b8920edf38f0c0e2bc64">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\2a\de244f1be4421292de0417d18b6b5deffec528">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\2c\71d044e827ea6bd97da5e233c28f00f4dcf2a8">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\2d\2bac3c70c295c4f25c5c165501281723513515">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\2d\8c28aed579ab3bfb4a59e964747fa371960ec2">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\30\45a9cd36783cee9efe6faffb4f130a9344e1b3">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\31\8048274e75437dcd368a606a8aa098865d00af">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\31\9475a15d764299a3a29cc432eb9a829c46ada0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\31\fc0b919324329508c04eb589de4d2ef22326fb">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\35\602c352919af6577ec560f55c72b3ec20c4759">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\35\b50f2ef4cf6042f1de3f495a231bf6b9b1ca47">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\36\0ea127f87b3549e5f137cca227b969e409cc8b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\36\5a1c61dc3f6a91a0389b2764d57b6c0fb8e821">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\38\428130133baf308b591803bab70f64481e9451">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\38\4e6846415202250f4966c8850e555f5ee0a2ce">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\38\85b9b9f8f90b8e4fb7c3606fc2f946395a6e11">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\3b\64b396eb948304c475671f51a135ab334b433d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\3c\b97263019a434e60f51e3cd3d3b382f6b3772b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\3d\ba95a4a89ba3a9ff8f3516fcc89c6aa9d9d4d1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\3e\55211e8c8d6b3e3944acd920810efde0a71c14">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\3e\847b4f785832a61dc91f2cd9f9f667c53d9900">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\40\087fa7fcda0ec418e4ff54d6d4e22d809751b4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\41\378f18d92572b3989e1277c5bf79a63de6be66">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\42\895c2d2d2e756bb29ba1a2791a087e998a04a2">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\42\9bf0ee842c33c3980999708b2e828105511bf5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\43\170a3f9d590e2c6237eb68d6f77c90edce53a7">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\45\090c73c25023c14b056354d381be219a5a4ee6">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\45\7655638b9f2fb0d1a7d5422d770875a489b481">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\46\8973b8b78d05b654e7b60e96b272c47078240c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\49\b6cd3887f399be6c072410af76e04fe8227d09">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\51\c7b1aec4947995cfce7810690bb0db0b8d7e97">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\51\cdfe5b3a0948f10b01036fdd7e4e636799d08c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\52\46431be15e5bbd29ee4ce4c837816a1e2f3285">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\54\a9c37a73c2c8cdbbcac39559d138eeb03c3e1b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\55\206bf62ff9241843e12f8144bcd4a2477cdaed">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\55\f1acd8edb0d82b112f084b5fe4dfb1ac3ebaa0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\56\038ce83840492638ce99e7724a0de558a9b3d9">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\56\5689badaf96ccfa412626fc773fd6c754c142b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\57\5205cd400dbd1cb263b4e54dd1bea45f71bee5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\57\d73d3ab7a3bc9a67c310e1b4a790ef5a224387">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\5b\204da24a3b51eee1700e0c2aa0bc7e107cdf31">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\5b\423694bd548f5f3ff3c35bb63e110548bb9990">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\61\3378d80ba8ea66bfc564a54c2533d904084ab5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\61\75faba7d0ec18d41f085c320e44303d9e552bb">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\62\98484fde1e148781c51eae7521918978d1b5f4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\62\9ae38bf2a20117a3c1e5af4cbf2632065ffad4">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\63\a2c09fe937d29e5870d91cb4596573b2afbc03">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\63\cfe7fb2fdd6bb94f2ac71c8ccede662a46f49c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\64\6de2a1b6f917eb8865be7596516dbfd614d428">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\64\9f704bb7805a4180e756ed8a426930ff3f2082">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\65\c2bf0ef2325eb8622342be74f24f210ee948c6">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\67\393eb31c21e9114360ed7f779fac66141c9c94">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\67\525c2f065c4912ce57a26fa43084bed66109c5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\67\bb8c6eb33eaf6f9d676909ae47e271adb8a929">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\68\a11a16bccda7310057a606c9efd53141a275bd">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\68\fe389d9a6f007ab0fb4ec295260a213a82ea79">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6a\14fded067bd2f74bf35882844442b44d1ab370">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6a\f5bb7d5289b6dc7290618e9a8dab60b9d55da0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6b\1f1750f4a83b4d9d210419f9d5cfe3cb26ae85">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6d\68540fde5347048b0d82697162def686e3549f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6d\84a9737f7357dc443c82ee21659c26abd89924">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6d\c99cbe3b82ac0db5f3427e0e59e28cab9346b0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\6f\0d8f2ef50bd22c52811e7174d572983495c873">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\70\422794aa3b359eff652afb4e37eeafe4ec0885">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\70\6b49deb2a1c898736186f723cfcf3733aa2e0e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\71\2efc0264f143362cd310c0d7e88e3914cbc820">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\72\e3464427a74fea985e89a5800bd73521c6a94c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\73\2378f36f7c41dabac3746d12ca6f3ab059c3a0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\74\821f5c82435e4e56c1a519a6ca7a4a0df505b3">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\76\52242320288075e9501038aa37349def42b3d1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\76\c407877edd4db2287b550a3e9669bb3703a57c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\76\fb84603bd332226ef64a544587623c7bfbbeb5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\77\2e270583214f1d091f95fbdf0836dca75f89fa">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\78\7e2d7bc560596572e2962a91271565a07c59d1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\78\ff6daa239eb19b8be63f53d6e92ff3b30eb016">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\79\1db734710ec7a1985ab0aba2bc05dd8735ed23">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7a\c80b911abfbfaea1907bd9283de60135252384">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7c\166a13c19d7811fbf00e7e334ad40eebfcbe2f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7c\ff9c27910fce10580fbf65658def708bf89177">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7d\8538019807b05d40e9b872673ec6b12752637b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7f\24efc1bf65bdb53e3a4325c5e208c48c60560e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\7f\71ace697612cd13b7c23d00983cc5090031d46">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\80\782836779d9276c05afc9051739664904dc5ff">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\81\9e607500bfc82cf49c02b028c0bea87a4f197e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\82\486a2ccb5152e3c4026a9fd0853967239e280e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\82\b105e3ca5ebffab22acf1d8e4508bcc089776e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\83\1ec5a0cf50064b040466061c7249680649f6b9">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\84\6af254a39eb4b3154da631f0da9246cbbd7dea">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\85\0b9147d6b809bf7a45708c21f758b8f6c06643">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\85\7ac4cafcc170653600fd5a11f8318afd04c997">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\87\9a652826599922755abbe700016c5af6271366">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\87\e2c7b9dd112b4711fb520b2ca0bdc3909b706a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\87\f099d414f95e689067968ee18a0b355de2cb18">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\88\1a706bfecdd4e7f4a3eb68839c68394a4d2006">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\88\ec46e614e23b29881def64482fed28e84215b6">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\89\2a93811fc4705bf11eb83bc3aaf3c027a71e4a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8a\3c4fc78360d67aa64633673b08f2df4bf4e44d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8a\c7daf9e4e2f89bb5f68689a930daaa9aef5fe9">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8b\211206353220cb0a58669319e90525bb806c8b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8c\7a0ab460a0a8ae8107663649ab517a2f43ed1d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8d\03b6bba1589b47a1c3ba1d0f3ced90b9efcc87">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\8f\6788fdee285663a5caaa715baa43cd405656b5">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\90\b6ebe352e7d04e688952866950b0e425d4335a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\91\32a072d0218c6777e06b6737c5ccb2b439135d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\91\85495468ce6972209a09075debeedb806ca1a1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\93\02f7b93fb381ddaa79adadf6fb3385170b6ee1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\93\a2b0ec439a2b64962ca119c76f1a7f88b77475">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\93\b00ba3068f59aea297a1e78d57831883c0a7f7">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\94\1e42a3d96e1c12794ba385516e50de9c6611a0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\94\f265fb2ef3288e0dd3d0569bbb5f802eb8654b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\96\6a08011b034244f536e4a09ac38d796f2247f1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\96\d42d6f95fd6dfb1c578ff6e01bf5a7731a49d7">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\97\b4477d540470b5b54011c7247fe22c463ae2c3">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\98\1dd70f5b6851188f7b16e57a0959b389aeea8a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\99\82e219875208b37154763fd08401abe942ac3c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\9b\2d52b1b0ca7f60fdbb2d39d51badcd23cc105e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\9d\b9d7981b55beaa287fe9aeeccc31356bff4774">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a0\d706f4bd3b2a37423af1d6cc8d3f9139d5ca27">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a1\06ed0849675d9e156f50d597436d9175ff6399">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a1\ae35b41b7734da63cb86fdbfd48fc35c758d28">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a4\87de5170e7ad05563e71ca7348c5fdaded934d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a5\8d33c55b7eac8fd8f93fc5e88cbb4b1af87c61">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a5\91236b3179f29379a70ed05675e7ae2e85574b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a6\e531805156111a2e123018a55dbf13f99c853f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a7\5ae729a24e55781043faa7d7987545e3d2c881">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\a9\ae48a5d0ece9dd30260b7e1f7c05c44966a362">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\aa\124eefd6e6c227b8235d6e22c2a29db0affca8">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ac\170e52786194b2011c9bdea9d48b3d25affb0d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ad\087140dcdb4a29e7f39940370ab45883629e6f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\af\de23885fd44eb1b12b71cc309ddbe7996cbe40">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b4\3149e32721684185d8e128bd27b6534c631227">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b4\316b8db413e73073a86d248cfd8199a12ff8de">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b4\4c78d23bdb4658737265084405520d5dbe25e3">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b4\c947537ef5fd5fdd356ee3434f789c6cfdad06">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b5\2cc720e017440ef227363f9f441ea268111e3a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b5\ac557d92a3ff5c8ebc89c23c2a09928d2d85c6">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\b6\6abb4b1be3e76a524dd8a2c32b77bba7c26e28">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ba\ad8bf07854cc78c56b0017d631d2a31b02ac87">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ba\befbb2c3f527b4034eb815c93d7273d73aa73f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ba\ce9024d21bfb25fafd4cb699f0adab19b0a99b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\bb\634961b11b8755ecba8ad6c2fb6a7c2a25d106">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\bc\2fed07717302a0d24cfefc0cd786f070d6a3f3">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\bc\461ad24f7fc5df20a9989a12a3821e93660866">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\bc\ae4be5ba0c0ae468ef646b1c0eaade5a2c9f8f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\be\0e151a518727d045566dc4ece1835034adfbd0">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\bf\5b23ede10c97ddda367ea7f462bd034557cf13">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c1\23d2771a37aba71ad29c2ab7a4950cc2cbbcc7">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c2\9640d5e7825f73007d369db5dba1347d4f0410">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c4\0fc5936f9d96d49599b0edb611f8dbaa2bda7c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c4\de8219d60deee44f3bedd519757f3d63e5cb80">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c7\24326a8b58af79cb841493ab0a0c7819552d76">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c7\b85d28d5cd1f8335ce6df381fc13cf2c7b34bf">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\c9\93fe7dda12c6241cc14b7a7dda7877b0926690">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ca\2a708462ae805900f1a6c74899961cbb666d68">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ca\31835c247eabf08859f370eec7b166c5a87059">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ca\8ef277a8e67f6257023e12d5f645bac10f8b7f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\cb\a413c16e5e1aeef0b29101c1ac73a2c802c82e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\cb\d5ae05b10b7ab4c4b8b61580fff5785e764f4e">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\cc\7611714677dd6fefca78d335c1c5171ad95644">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\cd\454eba82f483c0342a4e6fe977a5a8157e2d1f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d0\7dd65bac813f9f1f38931c16653ba6efbb868a">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d2\2183485edf7f2ba8398678c4f227b2f39034f2">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d3\b61b3e35ec6d20f0e70b4f223ba75177e0e996">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d4\e70af9ee2f52e567e72f558f24f26062852109">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d5\2c198c1fd48650b5bd729d3e22a74f9f866894">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\d7\09274a6d33d6ef31cd8afdd7fca429750a828f">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\da\c1e840a34554d33457ca9fa1efacf716d2a1e9">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\db\c85cd97fe7495b6b8bad64442c499117c30fdd">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\dc\594e3d6ba18a133f0c0e23deb7df8acf27bee7">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\de\7c043fd7e2722129eca98ff516f200034db2e2">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e0\4d9e6b8a249bac34fa0bc0af90258c4cffd007">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e2\cc8f23bb1abfb2ced132bd40a91a5f10545482">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e2\e423035a6307956e4f42d95d54c9de2b4a82ca">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e3\03841c31010d4b3f6324a5ea0e5c85a83788e8">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e4\b28c8774ea97069897cc75b75d73e2756ff3dd">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e4\e4d0007ce6dbf5204e3f160cdcde6b28b52a5c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e5\5a46f7c20803135988aae92653d357dba0f89b">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e5\b1fbf4bf09791d11a44e9af25c0a7b1263eb08">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\e8\7562b6d52576b997b0c2e1630f2fb840c93aa6">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ea\fa51566cdfef79459c54e8f1cbeff0e7037fb8">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f0\62a6f1a9e68fd2e65474e5b6234ff44480d569">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f0\ae47a9dea9366a9398e1407f1b5ca106c80dfc">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f1\a955467a7632b77cb193042dc045631e7c7a95">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f1\b1333922629999f94a520641317a04de0dc881">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f3\a7c29811bd5e49fcf77083580374f88283ac05">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f4\38c04b99c3444626443a958ff18510d5ee2d02">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f5\4aec73ca72093d311f1dde537dc8e9aae91731">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f6\f4a5c608ee92414f966b75fb34f2b2a88e6b8c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f8\4b7ef293412c5105b87723c6336683c0399dfd">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f8\d560437d1ae2d409b992cb127f36240daf1dea">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f9\1ac9ef0fcbf08f83e259a9c883b3ac8c6618c1">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f9\82922deec3c545320f18beb95b93a93606bd82">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\f9\d3c5192ed29c8e8b66736e71df4486a5168b45">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\fa\175c5028bdcec135b68234756e804dda103b19">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\fc\2581131e12a3efb5aa102bfc528fc03c5f5b61">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\fc\94411250286cbef60fb7f001d4ff5f776fecf2">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\fc\b3d77b28a8d5fea47a93b3d9f0c9cb3a2ba323">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\objects\ff\f185eb405c462598be586c6e8a4446c2bc1dbc">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\ORIG_HEAD">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\heads\fix-nec-decoding">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\heads\master">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\heads\readme">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\remotes\origin\master">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\remotes\origin\readme">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".git\refs\stash">
+      <SubType>compile</SubType>
+    </None>
+    <None Include=".vs\rc-car\v14\.atsuo">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="img\NEC_IR_Protocol.png">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="project.yml">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
