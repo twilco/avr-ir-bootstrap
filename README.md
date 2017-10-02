@@ -4,21 +4,21 @@ A barebones ATMega328p project that can decode NEC infrared signals with proper 
 
 ### Technical Overview
 
-1. IR signals will be sent from the remote and subsequently picked up by the TSOP38238 (the IR receiver hardware I'm using - you can use whatever you want that does the job)
+**1.** IR signals will be sent from the remote and subsequently picked up by the TSOP38238 (the IR receiver hardware I'm using - you can use whatever you want that does the job)
 
-2. The TSOP38238 will directly output the received pulses (marks and spaces) on it's output pin
+**2.** The TSOP38238 will directly output the received pulses (marks and spaces) on it's output pin
 
-3. This output will be hooked up directly to the input capture pin of the ATMega328p pin - the input capture interrupt will be triggered on each edge change
+**3.** This output will be hooked up directly to the input capture pin of the ATMega328p pin - the input capture interrupt will be triggered on each edge change
 
-4. Edge change by edge change the length of each mark and space will be calculated in microseconds
+**4.** Edge change by edge change the length of each mark and space will be calculated in microseconds
 
-5. Each new mark/space will be checked against a list of known headers in an attempt to match to a protocol - NEC's header starts with a 9000 microsecond mark and follows up with a 4500 microsecond space
+**5.** Each new mark/space will be checked against a list of known headers in an attempt to match to a protocol - NEC's header starts with a 9000 microsecond mark and follows up with a 4500 microsecond space
 
-6. Once a header has been matched to a protocol, all following marks/spaces will be treated as logical data bits and stored
+**6.** Once a header has been matched to a protocol, all following marks/spaces will be treated as logical data bits and stored
 
-7. After receiving all the bits from the full IR burst, we will know what button was pressed on the remote since each button sends a different series of data bits
+**7.** After receiving all the bits from the full IR burst, we will know what button was pressed on the remote since each button sends a different series of data bits
 
-8. The ATMega328p can then respond to the signal in whatever way you see fit
+**8.** The ATMega328p can then respond to the signal in whatever way you see fit
 
 ### High Level Overview of IR Protocols
 
@@ -39,3 +39,15 @@ When following the NEC protocol, a logical zero equates to a 562 microsecond mar
 The **address** portion of the NEC protocol is a unique value assigned to each manufacturer using the NEC protocol.  This protocol quickly became so popular that all of these addresses were used up - this led to what is known as the extended NEC protocol.  The extended NEC protocol forgos the redundancy provided by sending the inverse of the first 8 bits of the address, and instead allows the full 16-bit section to signify an address, extending the range from 256 possible addresses to 65536.
 
 The **command** is exactly what you think it is - a unique value arbitrarily chosen by the IR transmitter that corresponds to whatever triggered the transmission (e.g. a button press on a remote).
+
+So, for example, [Sparkfun's COM-11759](https://www.sparkfun.com/products/11759) remote's power button transmits `10000111011111101100000100111` when pressed.  Let's break that down from left to right:
+
+`10000111` - the 8-bit address specific to this remote
+
+`01111110` - the inverse of this address (all buttons on this remote transmit these same 16 bits to start)
+
+`11011000` - the command, arbitrarily chosen by Sparkfun for this button
+
+`00100111` - the invserse of that command
+
+
